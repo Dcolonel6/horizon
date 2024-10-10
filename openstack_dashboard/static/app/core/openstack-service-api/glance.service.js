@@ -51,6 +51,23 @@
 
     return service;
 
+    // my customised deactivate Image
+
+    function deactivateImage(image) {
+      return apiService.post('/images/' + image.id + '/actions/deactivate')
+        .catch(function onError() {
+          toastService.add('error', gettext('Unable to deactivate the image.'));
+        });
+    }
+
+    function reactivateImage(image) {
+      return apiService.post('/images/' + image.id + '/actions/reactivate')
+        .catch(function onError() {
+          toastService.add('error', gettext('Unable to reactivate the image.'));
+        });
+    }
+
+
     ///////////////
 
     // Version
@@ -227,12 +244,14 @@
      * Any parameters not listed above will be assigned as custom properites.
      * @returns {Object} The result of the API call
      */
-    function updateImage(image) {
+     function updateImage(image) {
       return apiService.patch('/api/glance/images/' + image.id + '/', image)
         .catch(function onError() {
           toastService.add('error', gettext('Unable to update the image.'));
         });
     }
+
+
 
     /**
      * @name deleteImage
@@ -255,6 +274,8 @@
         toastService.add('error', interpolate(msg, { id: imageId }, true));
       });
     }
+
+
 
     /**
      * @name getImageProps
@@ -280,7 +301,7 @@
      * @returns {Object} The result of the API call
      */
     function editImageProps(id, updated, removed) {
-      angular.forEach(READONLY_PROPERTIES, function(key) {
+      angular.forEach(READONLY_PROPERTIES, function (key) {
         delete updated[key];
       });
 
@@ -291,9 +312,9 @@
           removed: removed
         }
       )
-      .catch(function onError() {
-        toastService.add('error', gettext('Unable to edit the image custom properties.'));
-      });
+        .catch(function onError() {
+          toastService.add('error', gettext('Unable to edit the image custom properties.'));
+        });
     }
 
     /**
@@ -332,7 +353,7 @@
      * @returns {Object} The result of the API call
      */
     function getImages(params) {
-      var config = params ? { 'params' : params} : {};
+      var config = params ? { 'params': params } : {};
       return apiService.get('/api/glance/images/', config)
         .catch(function onError() {
           toastService.add('error', gettext('Unable to retrieve the images.'));
@@ -398,7 +419,7 @@
      * @returns {Object} The result of the API call
      */
     function getNamespaces(params, suppressError) {
-      var config = params ? {'params' : params} : {};
+      var config = params ? { 'params': params } : {};
       config.cache = true;
 
       var promise = apiService.get('/api/glance/metadefs/namespaces/', config);
