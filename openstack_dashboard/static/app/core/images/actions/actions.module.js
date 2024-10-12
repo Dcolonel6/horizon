@@ -86,7 +86,7 @@
         }
       })
       .append({
-        id: 'activateAction',
+        id: 'activateImageAction',
         service: activateService,
         template: {
           text: gettext('Activate')
